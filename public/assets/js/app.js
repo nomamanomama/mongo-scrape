@@ -1,9 +1,13 @@
+console.log("loading app.js");
+
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+    $("#articles").append("<button data-id='" + data[i]._id + "' class='btn btn-primary savearticle'>"); 
+    console.log("appending article #" + i);
   }
 });
 
@@ -39,6 +43,22 @@ $(document).on("click", "p", function() {
         // Place the body of the note in the body textarea
         $("#bodyinput").val(data.note.body);
       }
+    });
+});
+
+// Whenever someone clicks a p tag
+$(document).on("click", "savearticle", function () {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+  $.ajax({
+    method: "POST",
+    url: "/savearticle/" + thisId,
+  })
+    // With that done
+    .then(function (data) {
+      // Log the response
+      console.log(data);
+      
     });
 });
 
