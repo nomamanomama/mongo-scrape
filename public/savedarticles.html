@@ -10,16 +10,59 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Mongo Scraper</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home </a> 
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/savedarticles">Saved Articles
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div id="wrapper">
-        <h1>Saved Articles</h1>
-        <h2>
-            
-        </h2>
-        <div id="savedArticles"></div>
-        <button class="btn btn-primary" href="/articles">Home</button>
-    </div>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Saved Articles</h1>
+                
+            </div>
+        </div>
+
+        
+        <!-- Modal -->
+        <div class="modal fade" id="articleNotesModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Article Notes</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-savednotes"></div>
+                        <div id="modal-note"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="savenote" >Add Note</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/saved.js"></script>
 </body>
 
 </html>

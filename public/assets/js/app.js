@@ -1,21 +1,27 @@
-console.log("loading app.js");
+//console.log("loading app.js");
 
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-    $("#articles").append("<button data-id='" + data[i]._id + "' class='btn btn-primary savearticle'>"); 
-    console.log("appending article #" + i);
+    var newRow = $("<row>");
+    newRow.append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+    newRow.append("<button data-id='" + data[i]._id + "' class='btn btn-primary savearticle'>Save Article</button>"); 
+    newRow.append("<hr>");
+    $("#articles").append(newRow);
+    //console.log("appending article #" + i);
   }
 });
 
 
+
+
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".showarticle", function() {
   // Empty the notes from the note section
-  $("#notes").empty();
+  $("#modal-savednotes").empty();
+  $("#modal-note").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
 
@@ -27,27 +33,27 @@ $(document).on("click", "p", function() {
     // With that done, add the note information to the page
     .then(function(data) {
       console.log(data);
+      $("#savenote").data("id", thisId);
       // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      $("#modal-note").append("<h2>" + data.title + "</h2>");
       // An input to enter a new title
-      $("#notes").append("<input id='titleinput' name='title' >");
+      $("#modal-note").append("<input id='titleinput' name='title' >");
       // A textarea to add a new note body
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-      // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-
+      $("#modal-note").append("<textarea id='bodyinput' name='body'></textarea>");
+      
       // If there's a note in the article
       if (data.note) {
         // Place the title of the note in the title input
-        $("#titleinput").val(data.note.title);
+        $("#modal-savednotes").text(data.note.title);
         // Place the body of the note in the body textarea
-        $("#bodyinput").val(data.note.body);
+        $("#modal-savednotes").val(data.note.body);
       }
     });
+  $("articleNotesModal").modal('show');
 });
 
-// Whenever someone clicks a p tag
-$(document).on("click", "savearticle", function () {
+// Whenever someone clicks a button with class savearticle 
+$(document).on("click", ".savearticle", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
   $.ajax({
@@ -83,10 +89,23 @@ $(document).on("click", "#savenote", function() {
       // Log the response
       console.log(data);
       // Empty the notes section
-      $("#notes").empty();
+      $("#modal-note").empty();
     });
 
   // Also, remove the values entered in the input and textarea for note entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
+});
+
+$("#scrapeNewArticles").on("click", function(e){
+  $.ajax({
+    method: "GET",
+    url: "/scrape"})
+    .then(function(data){
+      if(data){
+        alert("Scrape complete");
+        $("#scrapeModal").modal('show');
+      }
+    })
+
 });
