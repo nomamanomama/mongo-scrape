@@ -3,14 +3,15 @@
 $.getJSON("/saved", function (data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
-        var newRow = $("<div>").addClass("row");
+        var newRow = $("<div>").addClass("row justify-content-between");
         // Display the apropos information on the page
-        newRow.append("<p data-id='" + data[i]._id + "'> <b>" + data[i].title + "</b><br />" + data[i].link + "</p>");
-        newRow.append("<button data-id='" + data[i]._id + "' class='btn btn-primary showarticle'>Article Notes</button>")
-        newRow.append("<button data-id='" + data[i]._id + "' class='btn btn-primary deletearticle'>Remove from Saved</button>");
-        newRow.append("<hr>");
+        newRow.append("<p class='col-8' data-id='" + data[i]._id + "'> <b>" + data[i].title + "</b><br />" + data[i].link + "</p>");
+        var buttonDiv = $("<div>").addClass("col-4 justify-content-between");
+        buttonDiv.append("<button data-id='" + data[i]._id + "' class='btn btn-primary showarticle'>Article Notes</button>")
+        buttonDiv.append("<button data-id='" + data[i]._id + "' class='btn btn-primary deletearticle'>Remove from Saved</button>");
+        newRow.append(buttonDiv);
         
-        $("#saved-articles").append(newRow);
+        $("#saved-articles").append(newRow).append("<hr>");
         //console.log("appending article #" + i);
     }
 });
@@ -44,18 +45,18 @@ $(document).on("click", ".showarticle", function () {
             $("#modal-note").append("<input id='titleinput' name='title' >");
             // A textarea to add a new note body
             $("#modal-note").append("<textarea id='bodyinput' name='body'></textarea>");
-
+            console.log("id: "+ data._id +"notes =" + data.notes);
             if(data.notes) {
-                for(var i = 0; i < data.notes.length; i++)
-                console.log(data.notes[i].title);
-                var newRow = $("<div>").addClass("row");
-                // Place the title of the note in the title input
-                var noteTitle = $("<h3>").text(data.notes[i].title);
-                //  // Place the body of the note in the body textarea
-                var noteText = $("<p>").text(data.notes[i].body);
-                newRow.append(noteTitle).append(noteText).append("<hr>");
-                $("#modal-savednotes").append(newRow);
-
+                for(var i = 0; i < data.notes.length; i++){
+                    var note = data.notes[i];
+                    var newRow = $("<div>").addClass("row");
+                    // Place the title of the note in the title input
+                    var noteTitle = $("<h3>").text(note.title).addClass("noteTitle");
+                    //  // Place the body of the note in the body textarea
+                    var noteText = $("<p>").text(note.body).addClass("noteBody");
+                    newRow.append(noteTitle).append(noteText).append("<hr>");
+                    $("#modal-savednotes").append(newRow);
+                 }
             }
            
         });
@@ -81,7 +82,7 @@ $(document).on("click", "#savenote", function () {
         // With that done
         .then(function (data) {
             // Log the response
-            console.log(data);
+            console.log("id: " + data._id);
             // Empty the notes section
             $("#modal-note").empty();
         });

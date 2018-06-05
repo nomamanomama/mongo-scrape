@@ -5,11 +5,12 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    var newRow = $("<row>");
-    newRow.append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-    newRow.append("<button data-id='" + data[i]._id + "' class='btn btn-primary savearticle'>Save Article</button>"); 
-    newRow.append("<hr>");
-    $("#articles").append(newRow);
+    var newRow = $("<div>").addClass("row justify-content-between");
+    newRow.append("<p class='col-8' data-id='" + data[i]._id + "'> <b>" + data[i].title + "</b> <br /> <a href='" + data[i].link + "'>" + data[i].link +  "</a></p>");
+    var buttonDiv = $("<div>").addClass("col-4 justify-content-between");
+    buttonDiv.append("<button data-id='" + data[i]._id + "' class='btn btn-primary savearticle'>Save Article</button>"); 
+    newRow.append(buttonDiv);
+    $("#articles").append(newRow).append("<hr>");
     //console.log("appending article #" + i);
   }
 });

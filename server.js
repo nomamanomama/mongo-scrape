@@ -127,6 +127,7 @@ app.get("/articles/:id", function(req, res) {
     .then(function(dbArticle) {
       // If we were able to successfully find an Article with the given id, send it back to the client
       console.log("/articles/:id sending json");
+      console.log(dbArticle);
       res.json(dbArticle);
     })
     .catch(function(err) {

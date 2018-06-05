@@ -53,3 +53,23 @@ textarea {
     height: 200px;
     font-size: 18px;
 }
+
+.noteTitle {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.noteBody {
+    font-size: 10px;
+    font-weight: 400;
+    padding: 10px;
+}
+
+.showarticle,
+.deletearticle {
+    width: 45%;
+    text-align: center;
+    padding:10px;
+    font-size:12px;
+}
